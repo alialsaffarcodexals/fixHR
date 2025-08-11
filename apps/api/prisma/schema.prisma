@@ -1,0 +1,113 @@
+// Prisma schema for Enterprise Payroll Suite
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Department {
+  id             String   @id @default(uuid())
+  departmentId   String   @unique
+  name           String
+  location       String
+  headEmployeeId String?
+  employees      Employee[]
+  payrollLines   PayrollLine[]
+  version        Int      @default(1)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([name])
+  @@index([location])
+}
+
+model Employee {
+  id           String   @id @default(uuid())
+  employeeId   String   @unique
+  firstName    String
+  lastName     String
+  gender       String
+  address      String
+  payScale     Int
+  departmentId String
+  isHead       Boolean  @default(false)
+  deletedAt    DateTime?
+  version      Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  department   Department   @relation(fields: [departmentId], references: [id])
+  payrollLines PayrollLine[]
+
+  @@index([lastName])
+  @@index([departmentId])
+  @@index([payScale])
+}
+
+model PayScale {
+  level           Int      @id
+  annualAmountBHD Decimal  @db.Decimal(12,3)
+}
+
+model PayrollRun {
+  id              String   @id @default(uuid())
+  runDate         DateTime
+  totalBHD        Decimal  @db.Decimal(14,3)
+  createdByUserId String
+  filePath        String
+  checksum        String
+  createdAt       DateTime @default(now())
+  lines           PayrollLine[]
+}
+
+model PayrollLine {
+  id            String   @id @default(uuid())
+  payrollRunId  String
+  employeeId    String
+  departmentId  String
+  fortnightlyBHD Decimal @db.Decimal(14,3)
+  createdAt     DateTime @default(now())
+
+  payrollRun   PayrollRun @relation(fields: [payrollRunId], references: [id])
+  employee     Employee   @relation(fields: [employeeId], references: [id])
+  department   Department @relation(fields: [departmentId], references: [id])
+}
+
+enum Role {
+  Admin
+  HRManager
+  DeptHead
+  PayrollClerk
+  Employee
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String
+  role         Role
+  passwordHash String?
+  externalId   String?
+  mfaSecret    String?
+}
+
+model AuditLog {
+  id       String   @id @default(uuid())
+  actorId  String?
+  action   String
+  entity   String
+  entityId String
+  before   Json?
+  after    Json?
+  at       DateTime @default(now())
+  chain    String   // tamper-evident chain hash
+}
+
+model Setting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @default(now())
+}

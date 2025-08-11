@@ -1,0 +1,14 @@
+node_modules
+.next
+dist
+coverage
+.env
+.env.*
+!.env.example
+*.local
+public/data
+/data
+tmp
+.git
+npm-debug.log*
+pnpm-debug.log*

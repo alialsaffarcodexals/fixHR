@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: Enterprise Payroll Suite API
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000
+paths:
+  /api/healthz:
+    get:
+      summary: Liveness
+      responses: { "200": { "description": "OK" } }
+  /api/readyz:
+    get:
+      summary: Readiness
+      responses: { "200": { "description": "OK" } }
+  /api/metrics:
+    get:
+      summary: Prometheus metrics
+      responses: { "200": { "description": "OK" } }
+  /api/employees:
+    get:
+      summary: Search employees
+      parameters:
+        - in: query
+          name: query
+          schema: { type: string }
+        - in: query
+          name: page
+          schema: { type: integer, default: 1 }
+        - in: query
+          name: sort
+          schema: { type: string, enum: [lastName, payScale, department] }
+      responses: { "200": { "description": "OK" } }
+    post:
+      summary: Create employee
+      responses: { "201": { "description": "Created" } }
+  /api/employees/{id}:
+    get:
+      summary: Get employee
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses: { "200": { "description": "OK" } }
+    patch:
+      summary: Update employee
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses: { "200": { "description": "OK" } }
+    delete:
+      summary: Delete employee (soft)
+      parameters: [{ in: path, name: id, required: true, schema: { type: string } }]
+      responses: { "204": { "description": "No Content" } }
+  /api/departments:
+    get: { summary: List departments, responses: { "200": { "description": "OK" } } }
+    post: { summary: Create department, responses: { "201": { "description": "Created" } } }
+  /api/departments/{id}:
+    get: { summary: Get department, parameters: [{ in: path, name: id, required: true, schema: { type: string } }], responses: { "200": { "description": "OK" } } }
+    patch: { summary: Update department, parameters: [{ in: path, name: id, required: true, schema: { type: string } }], responses: { "200": { "description": "OK" } } }
+    delete: { summary: Delete department, parameters: [{ in: path, name: id, required: true, schema: { type: string } }], responses: { "204": { "description": "No Content" } } }
+  /api/departments/{id}/employees:
+    get: { summary: Employees in department, parameters: [{ in: path, name: id, required: true, schema: { type: string } }], responses: { "200": { "description": "OK" } } }
+  /api/departments/{id}/assign:
+    post: { summary: Assign employee to department, responses: { "200": { "description": "OK" } } }
+  /api/departments/{id}/set-head:
+    post: { summary: Set head, responses: { "200": { "description": "OK" } } }
+  /api/payroll/run:
+    post: { summary: Run payroll, responses: { "200": { "description": "Preview and job queued" } } }
+  /api/payroll/{runId}/report:
+    get: { summary: Download payroll.txt, parameters: [{ in: path, name: runId, required: true, schema: { type: string } }], responses: { "200": { "description": "File" } } }
+  /api/import/startup:
+    post: { summary: Import startup.txt if DB empty, responses: { "200": { "description": "Imported or skipped" } } }

@@ -1,0 +1,32 @@
+2
+Engineering
+Sydney
+3
+Harriet
+Smith
+F
+25 Harbour Rd, Sydney
+3
+Peter
+Jones
+M
+77 Bridge St, Sydney
+3
+Lina
+Khan
+F
+10 Tech Park, Sydney
+7
+Finance
+Tokyo
+2
+Ahmed
+Ali
+M
+1 Marunouchi, Tokyo
+5
+Sara
+Noor
+F
+2 Chiyoda, Tokyo
+4

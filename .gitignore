@@ -1,0 +1,25 @@
+﻿@"
+# deps
+node_modules/
+.pnpm-store/
+
+# builds
+apps/api/dist/
+apps/web/.next/
+dist/
+build/
+out/
+coverage/
+
+# env & local
+.env
+.env.*.local
+apps/web/.env.local
+*.log
+.vscode/
+.idea/
+
+# outputs
+reports/
+data/
+"@ | Set-Content -Encoding UTF8 .gitignore

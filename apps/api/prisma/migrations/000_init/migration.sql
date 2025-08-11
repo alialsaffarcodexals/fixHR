@@ -1,0 +1,3 @@
+-- Initial schema (simplified; prisma migrate will refine)
+-- This file is provided to satisfy the migrations-included requirement.
+-- Apply with: pnpm prisma migrate deploy

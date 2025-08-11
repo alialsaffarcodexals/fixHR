@@ -1,0 +1,13 @@
+node_modules
+dist
+coverage
+.env
+.env.*
+!.env.example
+*.local
+/data
+public/data
+tmp
+.git
+npm-debug.log*
+pnpm-debug.log*

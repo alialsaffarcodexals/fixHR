@@ -1,0 +1,1 @@
+export default function Self(){return <div><h1 className='text-xl font-semibold mb-4'>Self-Service</h1><p>View profile, department, pay scale, historical pay slips.</p></div>;}

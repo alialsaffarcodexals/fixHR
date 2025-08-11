@@ -1,7 +1,14 @@
 import axios from 'axios';
-const base = process.env.API_BASE_URL || 'http://localhost:4000';
-const devToken = process.env.DEV_JWT;
+
 export const api = axios.create({
-  baseURL: base,
-  headers: devToken ? { Authorization: `Bearer ${devToken}` } : undefined,
+  baseURL: process.env.API_BASE_URL || 'http://localhost:4000',
+});
+
+api.interceptors.request.use((config) => {
+  const token = process.env.DEV_JWT;
+  if (token) {
+    config.headers = config.headers || {};
+    (config.headers as any).Authorization = `Bearer ${token}`;
+  }
+  return config;
 });

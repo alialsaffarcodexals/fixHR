@@ -95,7 +95,7 @@ services:
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       API_BASE_URL: ${API_BASE_URL:-http://api:4000}  # container-to-container
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
   proxy:
     image: nginx:1.27

@@ -22,6 +22,13 @@ until docker compose exec -T db pg_isready -U postgres >/dev/null 2>&1; do
 done
 echo ""
 
+echo "==> Waiting for Redis to be healthy…"
+until docker compose exec -T redis redis-cli ping >/dev/null 2>&1; do
+  printf "."
+  sleep 1
+done
+echo ""
+
 # -------- API: install, migrate, seed, run ----------
 echo "==> API: install deps, generate prisma, migrate, seed"
 pushd apps/api >/dev/null

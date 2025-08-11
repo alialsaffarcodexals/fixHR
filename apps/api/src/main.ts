@@ -8,7 +8,7 @@ import { json } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { logger: ['log','error','warn'] });
-  app.enableCors({ origin: true, credentials: true }); // helpful for web ↔ api
+  app.enableCors({ origin: 'http://localhost:3001', credentials: true });
   app.use(helmet());
   app.use(cookieParser(process.env.COOKIE_SECRET || 'dev'));
   app.use(json({ limit: '2mb' }));

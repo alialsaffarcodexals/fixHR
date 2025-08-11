@@ -11,14 +11,16 @@ export class EmployeesService {
     const take = 20;
     const skip = (page - 1) * take;
 
-    const where: Prisma.EmployeeWhereInput = {
-      deletedAt: null,
-      OR: [
-        { firstName: { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
-        { lastName:  { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
-        { employeeId:{ contains: query, mode: 'insensitive' as Prisma.QueryMode } },
-      ],
-    };
+    const or: Prisma.EmployeeWhereInput[] = [
+      { firstName: { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
+      { lastName:  { contains: query, mode: 'insensitive' as Prisma.QueryMode } },
+      { employeeId:{ contains: query, mode: 'insensitive' as Prisma.QueryMode } },
+      { department: { name: { contains: query, mode: 'insensitive' as Prisma.QueryMode } } },
+      { department: { location: { contains: query, mode: 'insensitive' as Prisma.QueryMode } } },
+    ];
+    const psNum = Number(query);
+    if (!isNaN(psNum)) or.push({ payScale: psNum });
+    const where: Prisma.EmployeeWhereInput = { deletedAt: null, OR: or };
 
     const orderBy: any =
       sort === 'payScale' ? { payScale: 'asc' } :

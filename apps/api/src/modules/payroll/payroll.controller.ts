@@ -22,5 +22,11 @@ export class PayrollController {
     res.setHeader('Content-Type', 'text/plain');
     res.send(content);
   }
+
+  @Get('summary')
+  @Roles('Admin','PayrollClerk','HRManager','DeptHead')
+  summary() {
+    return this.service.summary();
+  }
 }
 

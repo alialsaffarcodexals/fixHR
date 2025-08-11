@@ -90,5 +90,11 @@ export class PayrollService {
     const content = await fs.readFile(run.filePath, 'utf8');
     return { filePath: run.filePath, content };
   }
+
+  async summary() {
+    const last = await this.prisma.payrollRun.findFirst({ orderBy: { runDate: 'desc' } });
+    const next = last ? dayjs(last.runDate).add(14, 'day').toDate() : null;
+    return { lastRun: last ? last.runDate : null, nextRun: next };
+  }
 }
 

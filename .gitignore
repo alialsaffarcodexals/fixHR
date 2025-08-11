@@ -1,4 +1,3 @@
-﻿@"
 # deps
 node_modules/
 .pnpm-store/
@@ -22,4 +21,3 @@ apps/web/.env.local
 # outputs
 reports/
 data/
-"@ | Set-Content -Encoding UTF8 .gitignore

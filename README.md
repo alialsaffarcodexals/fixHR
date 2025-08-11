@@ -20,7 +20,7 @@ docker compose exec api pnpm prisma db seed
 docker compose exec api pnpm api import:start
 
 # 5) Open the web app
-open http://localhost:3000
+open http://localhost:3001
 ```
 
 ### Local development (without Docker)
@@ -44,7 +44,7 @@ pnpm --filter api prisma db seed
 pnpm --filter api api import:start
 
 # 6) Start dev
-pnpm dev   # starts both web (3000) and api (4000)
+pnpm dev   # starts both web (3001) and api (4000)
 ```
 
 ### Makefile shortcuts
@@ -75,7 +75,7 @@ docker compose up -d
 ```
 
 ## URLs
-- Web: http://localhost:3000
+- Web: http://localhost:3001
 - API: http://localhost:4000 (health: `/api/healthz`, readiness: `/api/readyz`, metrics: `/api/metrics`)
 
 ## Contents
